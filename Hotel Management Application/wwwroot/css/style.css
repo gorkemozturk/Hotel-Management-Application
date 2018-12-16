@@ -1,0 +1,76 @@
+﻿body {
+    font-family: 'Roboto Condensed', sans-serif;
+    background: #f6f6f6;
+}
+
+.btn {
+    border-radius: 0;
+    text-transform: uppercase;
+}
+
+.navbar {
+    background: #fff;
+}
+
+.nav-item {
+    text-transform: uppercase;
+}
+
+
+.nav-item .active {
+    border-radius: 0;
+}
+
+
+.card {
+    border-radius: 0;
+    border: none;
+}
+
+    .card .card-header {
+        border-color: #f6f6f6;
+        border-radius: 0;
+        background-color: #fff;
+    }
+
+    .card .card-body {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .card .card-footer {
+        border: none;
+        border-radius: 0;
+        background-color: #f1f1f1;
+    }
+
+.form-control {
+    border-radius: 0;
+}
+
+.alert {
+    border-radius: 0;
+}
+
+.table thead tr th {
+    font-weight: normal;
+}
+
+.badge {
+    text-transform: uppercase;
+    font-weight: normal;
+    border-radius: 0;
+}
+
+.card-body .list-group .list-group-item:first-child, .list-group .list-group-item:last-child {
+    border-radius: 0;
+}
+
+.card-body .list-group .list-group-item {
+    border: none;
+}
+
+.tooltip-inner {
+    border-radius: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+}
