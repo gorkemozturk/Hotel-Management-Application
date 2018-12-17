@@ -4,14 +4,16 @@ using HotelManagementApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181216142608_CreateRoomAndRoomType")]
+    partial class CreateRoomAndRoomType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,11 +33,7 @@ namespace HotelManagementApplication.Migrations
 
                     b.Property<int>("RoomNumber");
 
-                    b.Property<int>("RoomTypeID");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("RoomTypeID");
 
                     b.ToTable("Rooms");
                 });
@@ -245,14 +243,6 @@ namespace HotelManagementApplication.Migrations
                     b.ToTable("ApplicationUser");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
-            modelBuilder.Entity("HotelManagementApplication.Models.Room", b =>
-                {
-                    b.HasOne("HotelManagementApplication.Models.RoomType", "RoomType")
-                        .WithMany()
-                        .HasForeignKey("RoomTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

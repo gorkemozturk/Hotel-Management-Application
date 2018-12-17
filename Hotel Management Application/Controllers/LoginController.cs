@@ -47,9 +47,9 @@ namespace HotelManagementApplication.Controllers
                 if (string.IsNullOrWhiteSpace(returnUrl))
                     return RedirectToAction("Index", "Home");
             }
-            catch (Exception e)
+            catch
             {
-                ModelState.AddModelError("", e.Message);
+                return View();
             }
 
             return Redirect(returnUrl);

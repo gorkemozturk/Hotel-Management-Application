@@ -1,0 +1,46 @@
+﻿@model HotelManagementApplication.Models.ViewModels.RoomViewModel
+@{
+    ViewData["Title"] = "CREATE A NEW ROOM";
+}
+
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-antiforgery="true">
+                    <div class="form-group">
+                        <input asp-for="Room.RoomNumber" placeholder="Name" class="form-control" autocomplete="off">
+                        <span asp-validation-for="Room.RoomNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="Room.RoomTypeID" class="form-control">
+                            @foreach (var item in Model.Types)
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Room.RoomNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Room.IsAvailable" type="checkbox" class="form-check-input">
+                        <label class="form-check-label">Available</label>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <a asp-action="Index" asp-controller="Room" class="btn btn-secondary">Cancel</a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    Create
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}

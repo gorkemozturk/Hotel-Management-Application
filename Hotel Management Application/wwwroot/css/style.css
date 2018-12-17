@@ -5,17 +5,11 @@
 
 .btn {
     border-radius: 0;
-    text-transform: uppercase;
 }
 
 .navbar {
     background: #fff;
 }
-
-.nav-item {
-    text-transform: uppercase;
-}
-
 
 .nav-item .active {
     border-radius: 0;
@@ -39,9 +33,9 @@
     }
 
     .card .card-footer {
-        border: none;
+        border-color: #f6f6f6;
         border-radius: 0;
-        background-color: #f1f1f1;
+        background-color: #fff;
     }
 
 .form-control {

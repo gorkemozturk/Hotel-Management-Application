@@ -66,9 +66,9 @@ namespace HotelManagementApplication.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            catch (Exception e)
+            catch
             {
-                ModelState.AddModelError("", e.Message);
+                return View();
             }
 
             return RedirectToAction("Index", "Login");

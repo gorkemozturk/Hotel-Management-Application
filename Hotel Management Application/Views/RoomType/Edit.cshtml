@@ -1,0 +1,45 @@
+﻿@model HotelManagementApplication.Models.RoomType
+@{
+    ViewData["Title"] = "EDIT THE ROOM TYPE";
+}
+
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form asp-route-id="@Model.ID" id="form" method="post" asp-antiforgery="true">
+                    <div class="form-group">
+                        <input asp-for="Name" placeholder="Name" class="form-control" autocomplete="off">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Price" placeholder="Price" class="form-control" autocomplete="off">
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Tax" placeholder="Tax" class="form-control" autocomplete="off">
+                        <span class="text-danger" asp-validation-for="Tax"></span>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="IsAvailable" type="checkbox" class="form-check-input">
+                        <label class="form-check-label">Available</label>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <a asp-action="Index" asp-controller="Room" class="btn btn-secondary">Cancel</a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-refresh"></i>
+                    Edit
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}
