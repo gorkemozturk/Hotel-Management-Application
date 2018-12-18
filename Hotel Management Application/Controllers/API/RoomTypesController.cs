@@ -20,7 +20,15 @@ namespace HotelManagementApplication.Controllers.API
             _context = context;
         }
 
-        // DELETE: api/ApiWithActions/5
+        [HttpGet("{id}")]
+        public decimal Get(int id)
+        {
+            var roomType = _context.RoomTypes.Find(id);
+            decimal total = roomType.Price + (roomType.Price * roomType.Tax / 100);
+
+            return total;
+        }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

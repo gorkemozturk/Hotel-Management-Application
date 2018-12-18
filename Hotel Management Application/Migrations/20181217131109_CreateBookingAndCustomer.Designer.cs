@@ -4,14 +4,16 @@ using HotelManagementApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181217131109_CreateBookingAndCustomer")]
+    partial class CreateBookingAndCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,25 +27,13 @@ namespace HotelManagementApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BookingName")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Capacity");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("Duration");
 
-                    b.Property<bool>("IsActive");
-
-                    b.Property<decimal>("Payment");
-
-                    b.Property<decimal>("RemainingAmount");
-
                     b.Property<int>("RoomTypeID");
 
-                    b.Property<DateTime>("StartOn");
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("ID");
 
@@ -58,33 +48,18 @@ namespace HotelManagementApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
                     b.Property<int?>("BookingID");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(15);
 
                     b.Property<string>("Email");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                        .IsRequired();
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                        .IsRequired();
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15);
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                        .IsRequired();
 
                     b.HasKey("ID");
 

@@ -1,0 +1,89 @@
+﻿@model HotelManagementApplication.Models.ViewModels.BookingViewModel
+@{
+    ViewData["Title"] = "CREATE A NEW BOOKING";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-antiforgery="true">
+                    <div class="form-group">
+                        <label asp-for="Booking.BookingName"></label>
+                        <input asp-for="Booking.BookingName" placeholder="Booking Name" class="form-control" autocomplete="off">
+                        <span asp-validation-for="Booking.BookingName" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="Booking.Duration"></label>
+                            <input id="duration" asp-for="Booking.Duration" placeholder="Duration" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Booking.Duration" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Booking.Capacity"></label>
+                            <input id="capacity" asp-for="Booking.Capacity" placeholder="Capacity" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Booking.Capacity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Booking.Payment"></label>
+                            <input value="0" id="payment" asp-for="Booking.Payment" placeholder="Payment" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Booking.Payment" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="Booking.RoomTypeID"></label>
+                            <select onchange="getValue(this);" asp-for="Booking.RoomTypeID" class="form-control">
+                                <option value="">Select an Option</option>
+                                @foreach (var item in Model.Types)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Booking.RoomTypeID" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Booking.StartOn"></label>
+                            <input asp-for="Booking.StartOn" placeholder="Start Date" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Booking.StartOn" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div>
+                        TOTAL: <span id="total"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    Create
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+
+    <script>
+        function getValue(type) {
+            $.ajax({
+                url: '/api/roomtypes/' + type.value,
+                type: 'GET',
+                dataType: 'text',
+                success: function (data, textStatus, xhr) {
+                    var total;
+
+                    total = ($('#duration').val() * $('#capacity').val() * data) - $('#payment').val();
+                    
+                    $('#total').html(total);
+                }
+            });
+        }
+    </script>
+}

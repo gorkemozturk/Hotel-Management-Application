@@ -1,0 +1,115 @@
+﻿@model IEnumerable<HotelManagementApplication.Models.Booking>
+@{
+    ViewData["Title"] = "BOOKINGS";
+}
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        @ViewData["Title"]
+                    </div>
+                    <div class="col text-right">
+                        <a asp-action="Create" class="btn btn-primary btn-sm">
+                            <i class="fa fa-plus-circle"></i>
+                            Create
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="table" class="table table-hover table-striped table-borderless">
+                    <thead>
+                        <tr>
+                            <th scope="col">@Html.DisplayNameFor(m => m.ID)</th>
+                            <th scope="col">@Html.DisplayNameFor(m => m.BookingName)</th>
+                            <th scope="col">@Html.DisplayNameFor(m => m.StartOn)</th>
+                            <th scope="col">@Html.DisplayNameFor(m => m.Duration)</th>
+                            <th scope="col">@Html.DisplayNameFor(m => m.Capacity)</th>
+                            <th scope="col">@Html.DisplayNameFor(m => m.RoomTypeID)</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="align-middle">@Html.DisplayFor(m => item.ID)</td>
+                                <td class="align-middle">@Html.DisplayFor(m => item.BookingName)</td>
+                                <td class="align-middle">@Html.DisplayFor(m => item.StartOn)</td>
+                                <td class="align-middle">@Html.DisplayFor(m => item.Duration) Days</td>
+                                <td class="align-middle">@item.Customers.Count() / @Html.DisplayFor(m => item.Capacity)</td>
+                                <td class="align-middle">@Html.DisplayFor(m => item.RoomType.Name)</td>
+                                <td class="align-middle text-right">
+                                    <a href="javascript:;" data-id="@item.ID" class="btn btn-sm btn-outline-primary btn-view">
+                                        <span class="fa fa-eye"></span>
+                                    </a>
+                                    <a href="javascript:;" data-type-id="@item.ID" class="btn btn-sm btn-outline-danger btn-delete">
+                                        <span class="fa fa-trash"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer text-center">
+                Total: @Model.Count()
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">OVERVIEW</div>
+            <div id="details" class="card-body"></div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" />
+}
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
+
+    <script>
+        $('.btn-view').click(function () {
+            var id = $(this).attr('data-id');
+            $.ajax({
+                type: 'Get',
+                url: '/api/bookings/' + id,
+                data: { id: id }
+            })
+                .done(function (response) {
+                    $.each(response, function (index, element) {
+                        $('#details').html(
+                            '<span class="badge badge-secondary">BOOKING NAME:</span> ' + element.bookingName + '<br />' +
+                            '<span class="badge badge-secondary">ROOM TYPE:</span> ' + element.roomType + '<br />' +
+                            '<span class="badge badge-secondary">DURATION:</span> ' + element.duration + ' Days<br />' +
+                            '<span class="badge badge-secondary">CAPACITY:</span> ' + element.capacity + '<br />' +
+                            '<span class="badge badge-secondary">STATUS:</span> ' + element.isActive + '<br />' +
+                            '<span class="badge badge-secondary">START ON:</span> ' + element.startOn + '<br />' +
+                            '<span class="badge badge-secondary">CREATED AT:</span> ' + element.createdAt +
+                            '<hr />' +
+                            '<span class="badge badge-secondary">PAYMENT:</span> ' + element.payment + '<br />' +
+                            '<span class="badge badge-secondary">REMAINING AMOUNT:</span> ' + element.remainingAmount + '<br />'
+                        );
+                    });
+                })
+                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('An error occurred.');
+                });
+
+            return false;
+        });
+    </script>
+}

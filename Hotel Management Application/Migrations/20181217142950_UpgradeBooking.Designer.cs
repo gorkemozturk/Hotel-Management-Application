@@ -4,14 +4,16 @@ using HotelManagementApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HotelManagementApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181217142950_UpgradeBooking")]
+    partial class UpgradeBooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,12 +27,6 @@ namespace HotelManagementApplication.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BookingName")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<int>("Capacity");
-
                     b.Property<DateTime>("CreatedAt");
 
                     b.Property<int>("Duration");
@@ -43,7 +39,7 @@ namespace HotelManagementApplication.Migrations
 
                     b.Property<int>("RoomTypeID");
 
-                    b.Property<DateTime>("StartOn");
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("ID");
 

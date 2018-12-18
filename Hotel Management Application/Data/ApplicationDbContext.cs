@@ -18,5 +18,7 @@ namespace HotelManagementApplication.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RoomType> RoomTypes { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }
