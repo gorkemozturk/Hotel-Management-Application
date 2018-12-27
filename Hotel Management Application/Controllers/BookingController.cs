@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using HotelManagementApplication.Data;
 using HotelManagementApplication.Models;
 using HotelManagementApplication.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagementApplication.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly ApplicationDbContext _context;

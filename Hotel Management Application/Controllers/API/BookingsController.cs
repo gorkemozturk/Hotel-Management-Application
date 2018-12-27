@@ -1,4 +1,5 @@
 ﻿using HotelManagementApplication.Data;
+using HotelManagementApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -24,7 +25,6 @@ namespace HotelManagementApplication.Controllers.API
                 roomType = b.RoomType.Name,
                 duration = b.Duration,
                 capacity = b.Capacity,
-                isActive = b.IsActive,
                 payment = b.Payment,
                 remainingAmount = b.RemainingAmount,
                 startOn = b.StartOn,
@@ -37,10 +37,26 @@ namespace HotelManagementApplication.Controllers.API
             return Ok(booking);
         }
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                Booking booking = _context.Bookings.Find(id);
+
+                if (booking == null)
+                    return BadRequest();
+
+                _context.Bookings.Remove(booking);
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
