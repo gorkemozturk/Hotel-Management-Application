@@ -1,4 +1,6 @@
 ﻿@model IEnumerable<HotelManagementApplication.Models.Booking>
+@using HotelManagementApplication.Services
+@inject BookingService BookingService
 @{
     ViewData["Title"] = "BOOKINGS";
 }
@@ -35,20 +37,20 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr id="booking-@item.ID">
+                            <tr class="@if (BookingService.IsPaid(item.ID) == true) { @Html.Raw("table-success") }" id="booking-@item.ID">
                                 <td class="align-middle">@Html.DisplayFor(m => item.ID)</td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.BookingName)</td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.StartOn)</td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.Duration) Days</td>
                                 <td class="align-middle">
-                                    @item.Customers.Count()/@Html.DisplayFor(m => item.Capacity)
+                                    <span count="@item.Customers.Count()" class="count-@item.ID">@item.Customers.Count()</span>/@Html.DisplayFor(m => item.Capacity)
                                     <a href="javascript:;" data-id="@item.ID" class="btn btn-customers btn-sm btn-link">
                                         <span class="fa fa-eye"></span>
                                     </a>
                                 </td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.RoomType.Name)</td>
                                 <td class="align-middle text-right">
-                                    <a asp-action="Create" asp-controller="Customer" asp-route-id="@item.ID" class="btn btn-sm btn-outline-success">
+                                    <a asp-action="Create" asp-controller="Customer" asp-route-id="@item.ID" capacity="@Html.DisplayFor(m => item.Capacity)" data-id="@item.ID" class="btn btn-sm btn-outline-success btn-create-customer">
                                         <span class="fa fa-plus-circle"></span>
                                     </a>
                                     <a href="javascript:;" data-id="@item.ID" class="btn btn-sm btn-view btn-outline-primary">
@@ -134,16 +136,16 @@
 
         $('.btn-customers').click(function () {
             var id = $(this).attr('data-id');
+            $('#customer').show();
             $.ajax({
                 type: 'Get',
                 url: '/api/customers/' + id,
                 data: { id: id }
             })
             .done(function (response) {
-                $('#customer').show();
                 if (response.length > 0) {
                     $.each(response, function (index, element) {
-                        $('#customers').append(
+                        $('#customers').html(
                             '<ul style="list-style: none" class="p-0">' +
                                 '<li><strong>' + element.fullName + '</strong> ' +
                                     '<ul>' +
@@ -186,6 +188,14 @@
 
                 return false;
             }
-        }); 
+        });
+
+        $('.btn-create-customer').click(function () {
+            var id = $(this).attr('data-id');
+            if ($(this).attr("capacity") == $(".count-" + id).attr("count")) {
+                alert("There are no any enough capacities.");
+                return false;
+            }
+        });
     </script>
 }
