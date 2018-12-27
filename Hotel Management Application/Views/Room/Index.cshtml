@@ -1,4 +1,6 @@
 ﻿@model HotelManagementApplication.Models.ViewModels.RoomViewModel
+@using HotelManagementApplication.Services
+@inject RoomTypeService TypeService
 @{
     ViewData["Title"] = "ROOMS";
     int counter = 1;
@@ -100,7 +102,7 @@
                                     <a asp-action="Edit" asp-route-id="@item.ID" asp-controller="RoomType" class="btn btn-sm btn-outline-primary">
                                         <span class="fa fa-refresh"></span>
                                     </a>
-                                    <a href="javascript:;" data-type-id="@item.ID" class="btn btn-sm btn-outline-danger btn-type">
+                                    <a href="javascript:;" data-type-id="@item.ID" usage="@TypeService.IsUsed(item.ID)" class="btn btn-sm btn-outline-danger btn-type">
                                         <span class="fa fa-trash"></span>
                                     </a>
                                 </td>
@@ -132,24 +134,28 @@
 
     <script>
         $('.btn-type').click(function () {
-            var confirmDelete = confirm("Are you sure you want to delete this room type?");
-            var id = $(this).attr('data-type-id');
-            if (confirmDelete == true) {
-                $.ajax({
-                    type: 'Delete',
-                    url: '/api/roomtypes/' + id,
-                    data: { id: id }
-                })
-                .done(function (response) {
-                    $('#type-' + id).html(response);
-                })
-                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('An error occurred.');
-                });
-
-                return false;
+            if ($(this).attr('usage') == 'Unused') {
+                var confirmDelete = confirm("Are you sure you want to delete this room type?");
+                var id = $(this).attr('data-type-id');
+                if (confirmDelete == true) {
+                    $.ajax({
+                        type: 'Delete',
+                        url: '/api/roomtypes/' + id,
+                        data: { id: id }
+                    })
+                        .done(function (response) {
+                            $('#type-' + id).html(response);
+                        })
+                        .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert('An error occurred.');
+                        });
+                    return false;
+                }
             }
-        }); 
+            else {
+                alert('You cannot delete the room type which used by any rooms.');
+            }
+        });
 
         $('.btn-room').click(function () {
             var confirmDelete = confirm("Are you sure you want to delete this room?");
@@ -160,15 +166,15 @@
                     url: '/api/rooms/' + id,
                     data: { id: id }
                 })
-                .done(function (response) {
-                    $('#room-' + id).html(response);
-                })
-                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('An error occurred.');
-                });
+                    .done(function (response) {
+                        $('#room-' + id).html(response);
+                    })
+                    .fail(function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('An error occurred.');
+                    });
 
                 return false;
             }
-        }); 
+        });
     </script>
 }

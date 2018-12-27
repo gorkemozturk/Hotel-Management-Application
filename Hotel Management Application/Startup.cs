@@ -31,6 +31,7 @@ namespace Hotel_Management_Application
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<BookingService>();
+            services.AddTransient<RoomTypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
