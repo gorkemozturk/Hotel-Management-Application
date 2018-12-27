@@ -28,7 +28,7 @@ namespace HotelManagementApplication.Controllers
         // GET: Booking
         public async Task<ActionResult> Index()
         {
-            return View(await _context.Bookings.Include(b => b.RoomType).Include(b => b.Customers).ToListAsync());
+            return View(await _context.Bookings.Include(b => b.RoomType).Include(b => b.Guests).ToListAsync());
         }
 
         // GET: Booking/Create
@@ -69,27 +69,44 @@ namespace HotelManagementApplication.Controllers
             }
         }
 
-        //// GET: Booking/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        // GET: Customer/AddGuest/5
+        public async Task<ActionResult> AddGuest(int? id)
+        {
+            if (id == null)
+                return NotFound();
 
-        //// POST: Booking/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
+            BookingGuestViewModel model = new BookingGuestViewModel()
+            {
+                Booking = await _context.Bookings.FindAsync(id),
+                Guest = new BookingGuest()
+            };
 
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+            if (model.Booking == null)
+                return NotFound();
+
+            return View(model);
+        }
+
+        // POST: Customer/AddGuest/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddGuest(int id, BookingGuestViewModel model)
+        {
+            try
+            {
+                var booking = _context.Bookings.Find(id);
+
+                model.Guest.BookingID = booking.ID;
+
+                _context.BookingGuests.Add(model.Guest);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

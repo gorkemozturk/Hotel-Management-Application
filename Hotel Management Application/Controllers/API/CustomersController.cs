@@ -22,7 +22,7 @@ namespace HotelManagementApplication.Controllers.API
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var customers = _context.Customers.Where(b => b.BookingID == id).Select(b => new {
+            var customers = _context.BookingGuests.Where(b => b.BookingID == id).Select(b => new {
                 fullName = b.FirstName + " " + b.LastName,
                 phoneNumber = b.PhoneNumber,
                 city = b.City,

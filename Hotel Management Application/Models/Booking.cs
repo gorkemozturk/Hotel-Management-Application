@@ -42,7 +42,7 @@ namespace HotelManagementApplication.Models
         [Display(Name = "Created at")]
         public DateTime CreatedAt { get; set; }
 
-        public virtual IEnumerable<Customer> Customers { get; set; }
+        public virtual IEnumerable<BookingGuest> Guests { get; set; }
 
         [ForeignKey("RoomTypeID")]
         public virtual RoomType RoomType { get; set; }

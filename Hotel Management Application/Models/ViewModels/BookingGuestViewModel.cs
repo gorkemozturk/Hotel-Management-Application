@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace HotelManagementApplication.Models.ViewModels
 {
-    public class CustomerViewModel
+    public class BookingGuestViewModel
     {
         public Booking Booking { get; set; }
-        public Customer Customer { get; set; }
+        public BookingGuest Guest { get; set; }
     }
 }

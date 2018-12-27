@@ -1,0 +1,70 @@
+﻿@model HotelManagementApplication.Models.ViewModels.BookingGuestViewModel
+@{
+    ViewData["Title"] = "CREATE A NEW GUEST";
+}
+
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+                @ViewData["Title"]
+            </div>
+            <div class="card-body">
+                <form id="form" method="post" asp-route-id="@Model.Booking.ID" asp-antiforgery="true">
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="Guest.FirstName"></label>
+                            <input asp-for="Guest.FirstName" placeholder="First Name" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Guest.LastName"></label>
+                            <input asp-for="Guest.LastName" placeholder="Last Name" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="Guest.PhoneNumber"></label>
+                            <input asp-for="Guest.PhoneNumber" placeholder="Phone Number" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Guest.Email"></label>
+                            <input asp-for="Guest.Email" placeholder="E-Mail" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col">
+                            <label asp-for="Guest.City"></label>
+                            <input asp-for="Guest.City" placeholder="City" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.City" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Guest.Province"></label>
+                            <input asp-for="Guest.Province" placeholder="Province" class="form-control" autocomplete="off">
+                            <span asp-validation-for="Guest.Province" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Guest.Address"></label>
+                        <input asp-for="Guest.Address" placeholder="Address" class="form-control" autocomplete="off">
+                        <span asp-validation-for="Guest.Address" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-right">
+                <a asp-action="Index" asp-controller="Booking" class="btn btn-secondary">Cancel</a>
+                <a href="javascript: $('#form').submit()" class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    Create
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationPartial" />
+}

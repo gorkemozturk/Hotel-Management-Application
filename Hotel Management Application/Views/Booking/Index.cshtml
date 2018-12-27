@@ -43,14 +43,14 @@
                                 <td class="align-middle">@Html.DisplayFor(m => item.StartOn)</td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.Duration) Days</td>
                                 <td class="align-middle">
-                                    <span count="@item.Customers.Count()" class="count-@item.ID">@item.Customers.Count()</span>/@Html.DisplayFor(m => item.Capacity)
-                                    <a href="javascript:;" data-id="@item.ID" class="btn btn-customers btn-sm btn-link">
+                                    <span count="@item.Guests.Count()" class="count-@item.ID">@item.Guests.Count()</span>/@Html.DisplayFor(m => item.Capacity)
+                                    <a href="javascript:;" data-id="@item.ID" style="display: none" class="btn btn-customers btn-guest-@item.ID btn-sm btn-link">
                                         <span class="fa fa-eye"></span>
                                     </a>
                                 </td>
                                 <td class="align-middle">@Html.DisplayFor(m => item.RoomType.Name)</td>
                                 <td class="align-middle text-right">
-                                    <a asp-action="Create" asp-controller="Customer" asp-route-id="@item.ID" capacity="@Html.DisplayFor(m => item.Capacity)" data-id="@item.ID" class="btn btn-sm btn-outline-success btn-create-customer">
+                                    <a asp-action="AddGuest" asp-route-id="@item.ID" capacity="@Html.DisplayFor(m => item.Capacity)" data-id="@item.ID" class="btn btn-sm btn-outline-success btn-create-customer">
                                         <span class="fa fa-plus-circle"></span>
                                     </a>
                                     <a href="javascript:;" data-id="@item.ID" class="btn btn-sm btn-view btn-outline-primary">
@@ -104,7 +104,10 @@
 
     <script>
         $('.btn-view').click(function () {
+            $('.btn-customers').hide();
+            $('#customer').hide();
             var id = $(this).attr('data-id');
+            $('.btn-guest-' + id).show();
             $.ajax({
                 type: 'Get',
                 url: '/api/bookings/' + id,
@@ -144,18 +147,15 @@
             })
             .done(function (response) {
                 if (response.length > 0) {
+                    var customers = '<ol class="pl-3 m-0">';
                     $.each(response, function (index, element) {
-                        $('#customers').html(
-                            '<ul style="list-style: none" class="p-0">' +
-                                '<li><strong>' + element.fullName + '</strong> ' +
-                                    '<ul>' +
-                                        '<li><strong>Phone:</strong> ' + element.phoneNumber + '</li>' +
-                                        '<li><strong>City:</strong> ' + element.city + '</li>' +
-                                    '</ul>' +
-                                '</li>' +
-                            '</ul>'
-                        );
+                        customers +=
+                            '<li>'
+                                + element.fullName + ' (' + element.phoneNumber + ')'
+                            '</li>'
                     });
+                    customers += '</ol>';
+                    $('#customers').html(customers);
                 }
                 else {
                     $('#customers').html(
